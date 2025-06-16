@@ -1,11 +1,16 @@
 import MarkdownIt from "markdown-it";
+import { StateInline, Token } from "markdown-it/index.js";
 import { MarkdownParser, defaultMarkdownParser } from "prosemirror-markdown";
+import { Schema } from "prosemirror-model";
 
 export default class CustomMarkdownParser {
-  constructor(schema) {
+  public static md: MarkdownIt;
+  public parser: MarkdownParser;
+
+  constructor(schema: Schema) {
     const md = MarkdownIt('commonmark', { html: true });
 
-    md.inline.ruler.before('html_inline', 'font', (state, silent) => {
+    md.inline.ruler.before('html_inline', 'font', (state: StateInline, silent: boolean) => {
       const match = /^<font([^>]*)>(.*?)<\/font>/i.exec(state.src.slice(state.pos));
       if (!match) return false;
 
@@ -13,7 +18,10 @@ export default class CustomMarkdownParser {
 
       if (!silent) {
         const fontOpen = state.push('font_open', 'font', 1);
-        fontOpen.attrs = { 'family': /family="([^"]+)"/.exec(args)?.[1] || null };
+        const family = /family="([^"]+)"/.exec(args)?.[1];
+        if (family) {
+          fontOpen.attrSet('family', family);
+        }
 
         const inline = state.push('inline', '', 0);
         inline.children = [];
@@ -33,15 +41,15 @@ export default class CustomMarkdownParser {
         ...defaultMarkdownParser.tokens,
         font: {
           mark: 'fontMark',
-          getAttrs(tok) {
-            return { family: tok.attrs.family };
+          getAttrs(tok: Token) {
+            return { family: tok.attrGet('family') };
           }
         },
       },
     );
   }
 
-  parse(markdownText) {
+  parse(markdownText: string) {
     return this.parser.parse(markdownText);
   }
 }

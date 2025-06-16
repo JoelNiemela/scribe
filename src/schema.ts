@@ -1,14 +1,14 @@
-import { Schema } from "prosemirror-model";
+import { Mark, MarkSpec, Schema } from "prosemirror-model";
 import { schema } from "prosemirror-markdown";
 
-const fontMark = {
+const fontMark: MarkSpec = {
   attrs: { family: { default: 'default' } },
-  toDOM(node) {
+  toDOM(node: Mark) {
     return [ 'span', { style: `font-family: ${node.attrs.family};`}];
   },
   parseDOM: [{
     tag: 'font',
-    getAttrs(dom) {
+    getAttrs(dom: HTMLElement) {
       return { family: dom.getAttribute('family') };
     },
   }]

@@ -1,6 +1,6 @@
 import { MarkdownSerializer, defaultMarkdownSerializer } from "prosemirror-markdown";
 
-export default function scribeSerializer(schema) {
+export default function scribeSerializer(/* schema */): MarkdownSerializer {
   return new MarkdownSerializer(
     defaultMarkdownSerializer.nodes,
     {
