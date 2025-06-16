@@ -9,14 +9,17 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "vite": "^6.3.5"
+    "vite": "^6.3.5",
+    "vite-plugin-checker": "^0.9.3"
   },
   "dependencies": {
+    "@types/node": "^24.0.3",
     "prosemirror-example-setup": "^1.2.3",
     "prosemirror-markdown": "^1.13.2",
     "prosemirror-model": "^1.25.1",
     "prosemirror-schema-basic": "^1.2.4",
     "prosemirror-state": "^1.4.3",
-    "prosemirror-view": "^1.40.0"
+    "prosemirror-view": "^1.40.0",
+    "typescript": "^5.8.3"
   }
 }

@@ -5,11 +5,17 @@ import { exampleSetup } from "prosemirror-example-setup";
 import CustomMarkdownParser from "./parser";
 import scribeSerializer from "./serializer";
 import { onRenderPlugin } from "./on_update";
+import { MarkdownSerializer } from "prosemirror-markdown";
+import { Schema } from "prosemirror-model";
 
 export default class VisualView {
-  constructor(target, schema, content) {
+  public parser: CustomMarkdownParser;
+  public serializer: MarkdownSerializer;
+  public view: EditorView;
+
+  constructor(target: Node, schema: Schema, content: string) {
     this.parser = new CustomMarkdownParser(schema);
-    this.serializer = scribeSerializer(schema);
+    this.serializer = scribeSerializer(/* schema */);
 
     this.view = new EditorView(target, {
       state: EditorState.create({
